@@ -4,7 +4,7 @@
   "description": "mentoring program",
   "main": "index.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "nodemon main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,12 +17,21 @@
     "url": "https://github.com/Hliebov/nodejs-mentoring/issues"
   },
   "homepage": "https://github.com/Hliebov/nodejs-mentoring#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "csvtojson": "^1.1.7",
+    "deasync": "^0.1.10",
+    "nodemon": "^1.12.1",
+    "sync": "^0.2.5"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "data/*"
+    ],
+    "delay": "1000"
   }
 }
