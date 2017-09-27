@@ -25,7 +25,7 @@ class Importer {
 	importSync(path) {
 		let result;
 		this.dirwatcher.watch(path, DELAY);
-		this.dirwatcher.eventEmitter.on('dirwatcher:changed', (err, data) => {
+		this.dirwatcher.eventEmitter.once('dirwatcher:changed', (err, data) => {
 			if(err) {
 				result = err;
 			} else {
