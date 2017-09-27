@@ -4,10 +4,10 @@ const Importer = require('./importer');
 
 console.log(config.name);
 
-let user = new models.User();
-let product = new models.Product();
+const user = new models.User();
+const product = new models.Product();
 
-let importer = new Importer();
+const importer = new Importer();
 
 // import data using async method:
 importer.import('./data/').then((data) => {

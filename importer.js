@@ -12,7 +12,7 @@ class Importer {
 		this.dirwatcher.watch(path, DELAY);
 
 		return new Promise((resolve, reject) => {
-			this.dirwatcher.eventEmitter.on('dirwatcher:changed', (err, data) => {
+			this.dirwatcher.eventEmitter.once('dirwatcher:changed', (err, data) => {
 				if(err) {
 					reject(err);
 				} else {

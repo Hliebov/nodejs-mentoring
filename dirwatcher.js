@@ -8,7 +8,7 @@ class DirWatcher {
 	}
 
 	watch(path, delay) {
-		let fsTimeouts = [];
+		let fsTimeouts = {};
 
 		fs.watch(path, (eventType, filename) => {
 			if (fsTimeouts[filename]) {
