@@ -8,16 +8,16 @@ class DirWatcher {
 	}
 
 	watch(path, delay) {
-		let fsTimeout;
+		let fsTimeouts = [];
 
 		fs.watch(path, (eventType, filename) => {
-			if (fsTimeout) {
-				clearTimeout(fsTimeout);
+			if (fsTimeouts[filename]) {
+				clearTimeout(fsTimeouts[filename]);
 			}
 
 			let self = this;
 
-			fsTimeout = setTimeout(() => {
+			fsTimeouts[filename] = setTimeout(() => {
 				console.log(`event type is: ${eventType}`);
 				if (filename) {
 					csv()
