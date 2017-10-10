@@ -25,8 +25,11 @@
     "babel-register": "^6.26.0",
     "csvtojson": "^1.1.7",
     "deasync": "^0.1.10",
+    "minimist": "^1.2.0",
     "nodemon": "^1.12.1",
-    "sync": "^0.2.5"
+    "request": "^2.83.0",
+    "sync": "^0.2.5",
+    "through2": "^2.0.3"
   },
   "nodemonConfig": {
     "ignore": [
