@@ -1,3 +1,6 @@
+const fs = require('fs');
+const through = require('through2');
+
 const HELP = 'help';
 const ACTION ='action';
 const FILE ='file';
@@ -18,16 +21,33 @@ if (keys.length < 1) {
 
 console.dir(keys);
 
+transform(filePath);
 
 function inputOutput(path) {
-
+	fs.createReadStream(path)
+		.pipe(process.stdout);
 }
+
 function transformFile(path) {
 
 }
-function transform() {
 
+function transform() {
+	let stream = through(write, end);
+	function write (buffer, encoding, next) {
+		this.push(buffer.toString().toUpperCase());
+		next();
+	}
+
+	function end (done) {
+		done();
+	}
+
+	process.stdin
+		.pipe(stream)
+		.pipe(process.stdout);
 }
+
 function httpClient() {
 
 }
