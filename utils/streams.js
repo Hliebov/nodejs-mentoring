@@ -1,5 +1,6 @@
 const fs = require('fs');
 const through = require('through2');
+const csv = require('csvtojson')
 
 const HELP = 'help';
 const ACTION ='action';
@@ -21,7 +22,7 @@ if (keys.length < 1) {
 
 console.dir(keys);
 
-transform(filePath);
+transformFile(filePath);
 
 function inputOutput(path) {
 	fs.createReadStream(path)
@@ -29,7 +30,22 @@ function inputOutput(path) {
 }
 
 function transformFile(path) {
+	fs.createReadStream(path)
+		.pipe(through(function (chunk, enc, callback) {
+			let self = this;
+			csv()
+				.fromString(chunk.toString())
+				.on('json',(json)=>{
+					console.log(json)
+					self.push(JSON.stringify(json));
+				});
 
+			callback()
+		}))
+		.pipe(fs.createWriteStream('out.json'))
+		.on('finish', function () {
+			console.log('JSON successfully created!')
+		})
 }
 
 function transform() {
