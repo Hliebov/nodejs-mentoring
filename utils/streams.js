@@ -37,8 +37,6 @@ switch(action) {
 		printHelpMessage();
 }
 
-transformToJson(filePath);
-
 function inputOutput(path) {
 	fs.createReadStream(path)
 		.pipe(process.stdout);
