@@ -20,35 +20,63 @@ if (keys.length < 1) {
 	printHelpMessage();
 }
 
-console.dir(keys);
+switch(action) {
+	case 'io':
+		inputOutput(filePath);
+		break;
+	case 'transform-uppercase':
+		transformToUpperCase();
+		break;
+	case 'transform-csv':
+		transformToJson(filePath);
+		break;
+	case 'transform-csv-file':
+		transformFileToJson(filePath);
+		break;
+	default:
+		printHelpMessage();
+}
 
-transformFile(filePath);
+transformToJson(filePath);
 
 function inputOutput(path) {
 	fs.createReadStream(path)
 		.pipe(process.stdout);
 }
 
-function transformFile(path) {
+function transformFileToJson(path) {
+	let fileName = path.split('.')[0];
 	fs.createReadStream(path)
 		.pipe(through(function (chunk, enc, callback) {
-			let self = this;
 			csv()
 				.fromString(chunk.toString())
 				.on('json',(json)=>{
-					console.log(json)
-					self.push(JSON.stringify(json));
+					this.push(JSON.stringify(json));
 				});
 
 			callback()
 		}))
-		.pipe(fs.createWriteStream('out.json'))
+		.pipe(fs.createWriteStream(`${fileName}.json`))
 		.on('finish', function () {
 			console.log('JSON successfully created!')
 		})
 }
 
-function transform() {
+function transformToJson(path) {
+	fs.createReadStream(path)
+		.pipe(through(function (chunk, enc, callback) {
+			csv()
+				.fromString(chunk.toString())
+				.on('json',(json)=>{
+					this.push(JSON.stringify(json));
+				});
+
+			callback()
+		}))
+		.pipe(process.stdout);
+}
+
+function transformToUpperCase() {
 	let stream = through(write, end);
 	function write (buffer, encoding, next) {
 		this.push(buffer.toString().toUpperCase());
@@ -64,12 +92,8 @@ function transform() {
 		.pipe(process.stdout);
 }
 
-function httpClient() {
-
-}
-function httpServer() {
-
-}
 function printHelpMessage() {
-	console.log('Available commands: --file (-f) --action (-a) --help (-h). Has to have a least one argument!');
+	console.log('Available commands: --file (-f) --action (-a) --help (-h). ' +
+		'Actions: "io", "transform-uppercase", "transform-csv", "transform-csv-file". ' +
+		'Has to have a least one argument!');
 }
