@@ -1,3 +1,4 @@
+(function () {
 const fs = require('fs');
 const through = require('through2');
 const csv = require('csvtojson')
@@ -95,3 +96,5 @@ function printHelpMessage() {
 		'Actions: "io", "transform-uppercase", "transform-csv", "transform-csv-file". ' +
 		'Has to have a least one argument!');
 }
+
+})();
