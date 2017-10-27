@@ -17,7 +17,9 @@
     "url": "https://github.com/Hliebov/nodejs-mentoring/issues"
   },
   "homepage": "https://github.com/Hliebov/nodejs-mentoring#readme",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.2"
+  },
   "devDependencies": {
     "async": "^2.5.0",
     "babel": "^6.23.0",
