@@ -61,9 +61,8 @@ function transformFileToJson(path) {
 				.fromString(chunk.toString())
 				.on('json',(json)=>{
 					this.push(JSON.stringify(json));
+					callback();
 				});
-
-			callback()
 		}))
 		.pipe(fs.createWriteStream(`${fileName}.json`))
 		.on('finish', function () {
