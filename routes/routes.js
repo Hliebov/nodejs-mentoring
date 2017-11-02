@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const jwt = require('jsonwebtoken');
+const authCheck = require('./../middlewares/auth');
 
 const Products = require('./../controllers/Products');
 const Users = require('./../controllers/Users');
 
-router.get('/api/products', (req, res) => {
+router.get('/api/products', authCheck, (req, res) => {
 	let products = Products.getAll();
 	res.end(JSON.stringify(products));
 });
@@ -26,14 +27,14 @@ router.post('/api/products', (req, res, next) => {
 	res.end(JSON.stringify(newProduct));
 });
 
-router.get('/api/users', (req, res, next) => {
+router.get('/api/users', authCheck, (req, res, next) => {
 	let users = Users.getAll();
 	res.end(JSON.stringify(users));
 });
 
 router.post('/auth', (req, res, next) => {
 	if(Users.validateUser(req.body.name, req.body.password)) {
-		let token = jwt.sign({ foo: 'bar' }, 'secret');
+		let token = jwt.sign({ signed: true }, 'secret');
 		res.end(JSON.stringify({
 			"code": 200,
 			"message": "OK",
