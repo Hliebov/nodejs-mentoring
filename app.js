@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 
 const app = express();
 const router = require('./routes/routes');
@@ -14,6 +15,10 @@ function logger(req,res,next){
 
 app.use(cookieParser);
 app.use(queryParser);
+app.use(queryParser);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(logger);
 
