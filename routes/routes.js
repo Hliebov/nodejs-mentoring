@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const jwt = require('jsonwebtoken');
 const authCheck = require('./../middlewares/auth');
@@ -7,7 +8,10 @@ const authCheck = require('./../middlewares/auth');
 const Products = require('./../controllers/Products');
 const Users = require('./../controllers/Users');
 
-router.get('/api/products', authCheck, (req, res) => {
+router.use('/api/products/*', authCheck);
+router.use('/api/users/*', authCheck);
+
+router.get('/api/products', (req, res) => {
 	let products = Products.getAll();
 	res.end(JSON.stringify(products));
 });
@@ -30,6 +34,12 @@ router.post('/api/products', (req, res, next) => {
 router.get('/api/users', authCheck, (req, res, next) => {
 	let users = Users.getAll();
 	res.end(JSON.stringify(users));
+});
+
+router.post('/login',
+	passport.authenticate('local', { failureRedirect: '/login' }),
+	function(req, res) {
+		res.end('Authentification is successful!')
 });
 
 router.post('/auth', (req, res, next) => {
