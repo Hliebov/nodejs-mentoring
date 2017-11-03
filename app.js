@@ -17,13 +17,22 @@ function logger(req,res,next){
 	next();
 }
 
+app.use(passport.initialize());
+
 passport.use(new LocalStrategy((username, password, done) => {
-	console.log(username);
 	if(Users.validateUser(username, password)) {
-		return done();
+		return done(null, username);
 	}
 	console.log('User validation failed!');
 }));
+
+passport.serializeUser(function(user, done) {
+	done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+	done(null, user);
+});
 
 app.use(cookieParser);
 app.use(queryParser);
