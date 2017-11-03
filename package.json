@@ -22,7 +22,11 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth2": "^0.1.6",
+    "passport-local": "^1.0.0",
+    "passport-oauth": "^1.0.0",
+    "passport-twitter": "^1.0.4"
   },
   "devDependencies": {
     "async": "^2.5.0",
