@@ -9,6 +9,6 @@ const product = {
 };
 
 http.createServer(function (req, res) {
-	res.writeHead(200, {'Content-Type': 'JSON'});
-	res.end(JSON.stringify(product));
+	res.writeHead(200, {'Content-Type': 'application/json'});
+	res.json(product);
 }).listen(9999);

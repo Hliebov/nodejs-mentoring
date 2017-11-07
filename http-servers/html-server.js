@@ -9,7 +9,10 @@ http.createServer(function(req, res) {
 	// res.end(file.toString().replace('{message}', 'Message'));
 
 	fs.createReadStream('http-servers/index.html')
-		.pipe(res);
+		.pipe(res)
+		.on('error', function(err) {
+			console.error(err);
+		});
 
 
 }).listen(9999);
