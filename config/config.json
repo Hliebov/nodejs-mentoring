@@ -3,18 +3,18 @@
   "facebookAuth" : {
     "clientID"      : "your-secret-clientID-here",
     "clientSecret"  : "your-client-secret-here",
-    "callbackURL"   : "/auth/facebook/callback"
+    "callbackURL"   : "http://localhost:8888/auth/facebook/callback"
   },
 
   "twitterAuth" : {
     "consumerKey"       : "your-consumer-key-here",
     "consumerSecret"    : "your-client-secret-here",
-    "callbackURL"       : "/auth/twitter/callback"
+    "callbackURL"       : "http://localhost:8888/auth/twitter/callback"
   },
 
   "googleAuth" : {
     "clientID"      : "your-secret-clientID-here",
     "clientSecret"  : "your-client-secret-here",
-    "callbackURL"   : "/auth/google/callback"
+    "callbackURL"   : "http://localhost:8888/auth/google/callback"
   }
 }

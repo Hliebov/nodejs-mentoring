@@ -62,6 +62,18 @@ router.get('/login/twitter',
 		failureRedirect : '/'
 	}));
 
+router.get('/auth/facebook/callback', (req, res, next) => {
+	res.end('Authenticated via facebook');
+});
+
+router.get('/auth/google/callback', (req, res, next) => {
+	res.end('Authenticated via google');
+});
+
+router.get('/auth/twitter/callback', (req, res, next) => {
+	res.end('Authenticated via twitter');
+});
+
 router.post('/auth', (req, res, next) => {
 	if(Users.validateUser(req.body.name, req.body.password)) {
 		let token = jwt.sign({ signed: true }, 'secret');
