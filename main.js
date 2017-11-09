@@ -2,6 +2,8 @@ const config = require('./config/config');
 const models = require('./models');
 const Importer = require('./importer');
 
+require('./utils/streams');
+
 console.log(config.name);
 
 const user = new models.User();
