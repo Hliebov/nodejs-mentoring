@@ -1,0 +1,41 @@
+{
+  "development": {
+    "port": 5432,
+    "username": "postgres",
+    "password": "Password1",
+    "database": "dbname2",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "port": 5432,
+    "username": "postgres",
+    "password": "Password1",
+    "database": "dbname2",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "port": 5432,
+    "username": "postgres",
+    "password": "Password1",
+    "database": "dbname2",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "facebookAuth" : {
+    "clientID"      : "your-secret-clientID-here",
+    "clientSecret"  : "your-client-secret-here",
+    "callbackURL"   : "http://localhost:8888/auth/facebook/callback"
+  },
+  "twitterAuth" : {
+    "consumerKey"       : "your-consumer-key-here",
+    "consumerSecret"    : "your-client-secret-here",
+    "callbackURL"       : "http://localhost:8888/auth/twitter/callback"
+  },
+  "googleAuth" : {
+    "clientID"      : "your-secret-clientID-here",
+    "clientSecret"  : "your-client-secret-here",
+    "callbackURL"   : "http://localhost:8888/auth/google/callback"
+  }
+}

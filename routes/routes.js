@@ -8,32 +8,49 @@ const authCheck = require('./../middlewares/auth');
 const Products = require('./../controllers/Products');
 const Users = require('./../controllers/Users');
 
+const User = require('./../models').User;
+const Product = require('./../models').Product;
+
 router.use('/api/products/*', authCheck);
 router.use('/api/users/*', authCheck);
 
 router.get('/api/products', (req, res) => {
-	let products = Products.getAll();
-	res.end(JSON.stringify(products));
+	return Product
+		.all()
+		.then(products => res.status(200).send(products))
+		.catch(error => res.status(400).send(error));
 });
 
 router.get('/api/products/:id', (req, res, next) => {
-	let product = Products.getById(req.params.id);
-	res.end(JSON.stringify(product));
-});
-
-router.get('/api/products/:id/reviews', (req, res, next) => {
-	let reviews = Products.getReviewsById(req.params.id);
-	res.end(JSON.stringify(reviews));
+	Product.findById(req.params.id)
+		.then(product => res.status(201).send(product))
+		.catch(error => res.status(400).send(error));
 });
 
 router.post('/api/products', (req, res, next) => {
-	let newProduct = Products.addProduct();
-	res.end(JSON.stringify(newProduct));
+	Product.create({
+		reviews: [{review: +Date.now()}]
+	})
+		.then(product => res.status(201).send(product))
+		.catch(error => res.status(400).send(error));
 });
 
 router.get('/api/users', authCheck, (req, res, next) => {
-	let users = Users.getAll();
-	res.end(JSON.stringify(users));
+	return User
+		.all()
+		.then(users => res.status(200).send(users))
+		.catch(error => res.status(400).send(error));
+});
+
+router.post('/api/user', authCheck, (req, res, next) => {
+	User.create({
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.email,
+		password: req.body.password
+	})
+	.then(user => res.status(201).send(user))
+	.catch(error => res.status(400).send(error));
 });
 
 router.post('/login',

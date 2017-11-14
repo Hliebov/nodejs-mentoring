@@ -5,7 +5,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy  = require('passport-twitter').Strategy;
-const config = require('./config/config.json');
 
 const app = express();
 const router = require('./routes/routes');
