@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const MongoClient = require('mongodb').MongoClient;
 
 const jwt = require('jsonwebtoken');
 const authCheck = require('./../middlewares/auth');
@@ -112,6 +113,18 @@ router.post('/auth', (req, res, next) => {
 			})
 		)
 	}
+});
+
+router.get('/city', (req, res, next) => {
+	//task 4 - using native driver:
+	MongoClient.connect("mongodb://localhost:27017/mentoring", function(err, db) {
+		if(err) { return console.error(err); }
+		db.collection('cities').aggregate(
+			[ { $sample: { size: 1 } } ], (err, item) => {
+				res.send(item);
+			}
+		)
+	});
 });
 
 
