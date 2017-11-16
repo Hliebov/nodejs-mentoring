@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 
 const jwt = require('jsonwebtoken');
 const authCheck = require('./../middlewares/auth');
@@ -11,6 +12,12 @@ const Users = require('./../controllers/Users');
 
 const User = require('./../models').User;
 const Product = require('./../models').Product;
+
+const citySchema = require('./../_models/city');
+
+mongoose.connect('mongodb://localhost:27017/mentoring');
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
 router.use('/api/products/*', authCheck);
 router.use('/api/users/*', authCheck);
@@ -117,13 +124,26 @@ router.post('/auth', (req, res, next) => {
 
 router.get('/city', (req, res, next) => {
 	//task 4 - using native driver:
-	MongoClient.connect("mongodb://localhost:27017/mentoring", function(err, db) {
+	// MongoClient.connect("mongodb://localhost:27017/mentoring", function(err, db) {
+	// 	if(err) { return console.error(err); }
+	// 	db.collection('cities').aggregate(
+	// 		[ { $sample: { size: 1 } } ], (err, item) => {
+	// 			res.send(item);
+	// 		}
+	// 	)
+	// });
+
+	//task 6 - using mongoose:
+	let City = mongoose.model('City', citySchema);
+	City.count().exec(function(err, count){
 		if(err) { return console.error(err); }
-		db.collection('cities').aggregate(
-			[ { $sample: { size: 1 } } ], (err, item) => {
-				res.send(item);
-			}
-		)
+		let random = Math.floor(Math.random() * count);
+
+		City.findOne().skip(random).exec(
+			function (err, city) {
+				if(err) { return console.error(err); }
+				res.send(city);
+			});
 	});
 });
 
