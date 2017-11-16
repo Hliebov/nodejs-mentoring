@@ -14,6 +14,8 @@ const User = require('./../models').User;
 const Product = require('./../models').Product;
 
 const citySchema = require('./../_models/city');
+const productSchema = require('./../_models/product');
+const userSchema = require('./../_models/user');
 
 mongoose.connect('mongodb://localhost:27017/mentoring');
 let db = mongoose.connection;
@@ -23,47 +25,61 @@ router.use('/api/products/*', authCheck);
 router.use('/api/users/*', authCheck);
 
 router.get('/api/products', (req, res) => {
-	return Product
-		.all()
-		.then(products => res.status(200).send(products))
-		.catch(error => res.status(400).send(error));
+	let Product = mongoose.model('Product', productSchema);
+	Product.find((err, products) => {
+		if (err) return console.error(err);
+		res.status(201).send(products);
+	});
 });
 
 router.get('/api/products/:id', (req, res, next) => {
-	Product.findById(req.params.id)
-		.then(product => res.status(201).send(product))
-		.catch(error => res.status(400).send(error));
+	let Product = mongoose.model('Product', productSchema);
+	Product.findOne({_id: req.params.id}, (err, products) => {
+		if (err) return console.error(err);
+		res.status(201).send(products);
+	});
 });
 
-router.post('/api/products', (req, res, next) => {
-	Product.create({
-		reviews: [{review: +Date.now()}]
-	})
-		.then(product => res.status(201).send(product))
-		.catch(error => res.status(400).send(error));
+router.post('/api/product', (req, res, next) => {
+	let Product = mongoose.model('Product', productSchema);
+	let product = new Product({
+		reviews: [
+			{
+				review: +Date.now()
+			}
+		]
+	});
+	product.save((err, product) => {
+		if (err) return console.error(err);
+		res.status(201).send(product);
+	});
 });
 
 router.get('/api/users', authCheck, (req, res, next) => {
-	return User
-		.all()
-		.then(users => res.status(200).send(users))
-		.catch(error => res.status(400).send(error));
+	let User = mongoose.model('User', userSchema);
+	User.find((err, users) => {
+		if (err) return console.error(err);
+		res.status(201).send(users);
+	});
 });
 
 router.post('/api/user', authCheck, (req, res, next) => {
-	User.create({
+	let User = mongoose.model('User', userSchema);
+	let user = new User({
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		email: req.body.email,
 		password: req.body.password
-	})
-	.then(user => res.status(201).send(user))
-	.catch(error => res.status(400).send(error));
+	});
+	user.save((err, user) => {
+		if (err) return console.error(err);
+		res.status(201).send(user);
+	});
 });
 
 router.post('/login',
 	passport.authenticate('local', { failureRedirect: '/login' }),
-	function(req, res) {
+	(req, res) => {
 		res.end('Authentification is successful!')
 });
 
@@ -124,7 +140,7 @@ router.post('/auth', (req, res, next) => {
 
 router.get('/city', (req, res, next) => {
 	//task 4 - using native driver:
-	// MongoClient.connect("mongodb://localhost:27017/mentoring", function(err, db) {
+	// MongoClient.connect("mongodb://localhost:27017/mentoring", (err, db) => {
 	// 	if(err) { return console.error(err); }
 	// 	db.collection('cities').aggregate(
 	// 		[ { $sample: { size: 1 } } ], (err, item) => {
@@ -135,12 +151,22 @@ router.get('/city', (req, res, next) => {
 
 	//task 6 - using mongoose:
 	let City = mongoose.model('City', citySchema);
-	City.count().exec(function(err, count){
+
+	let user = new User({
+		firstName: 'Alex',
+		lastName: 'Admin',
+		email: 'email',
+		password: 'pswd'
+	});
+
+	user.save();
+
+	City.count().exec((err, count) => {
 		if(err) { return console.error(err); }
 		let random = Math.floor(Math.random() * count);
 
 		City.findOne().skip(random).exec(
-			function (err, city) {
+			 (err, city) => {
 				if(err) { return console.error(err); }
 				res.send(city);
 			});
